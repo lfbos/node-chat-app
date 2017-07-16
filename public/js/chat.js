@@ -34,8 +34,8 @@ socket.on('disconnect', function () {
 });
 
 socket.on('updateUserList', function (users) {
+    $('#users').find('ol').remove();
     let ol = $('<ol></ol>');
-
     users.forEach(function (user) {
         ol.append($('<li></li>').text(user));
     });
@@ -74,15 +74,12 @@ $('#message-form').on('submit', function (e) {
 
     var messageTextbox = $('[name=message]');
 
-    if (messageTextbox.val()) {
-        socket.emit('createMessage', {
-            from: 'User',
-            text: messageTextbox.val()
-        }, function () {
-            messageTextbox.val('');
-        });
-    }
-
+    socket.emit('createMessage', {
+        from: 'User',
+        text: messageTextbox.val()
+    }, function () {
+        messageTextbox.val('');
+    });
 });
 
 var locationButton = $('#send-location');
